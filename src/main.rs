@@ -1,3 +1,7 @@
+pub mod config;
+pub mod controller;
+pub mod model;
+
 fn main() {
-    println!("Hello, world!");
+    model::setting::ttt();
 }
