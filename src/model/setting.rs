@@ -1,4 +1,5 @@
-use super::config::db;
+use super::config::{db};
+use super::schema;
 
 use diesel::prelude::*;
 
@@ -14,21 +15,17 @@ pub struct Setting {
     pub updated_at: SystemTime,
 }
 
-impl Setting {
-    pub fn index() {
-        use super::schema::settings::dsl::*;
+pub fn index() {
+    use super::schema::settings::dsl::*;
 
-        let connection = db::connect();
-        let results = settings.filter(inuse.eq(true))
-            .limit(5)
-            .load::<Setting>(&connection)
-            .expect("Error loading posts");
+    let connection = db::connect();
+    let results = settings.filter(inuse.eq(true))
+        .limit(5)
+        .load::<Setting>(&connection)
+        .expect("Error loading posts");
 
-        println!("Displaying {} posts", results.len());
-        for post in results {
-            println!("{}", post.head);
-            println!("----------\n");
-            println!("{}", post.body);
-        }
+    println!("Displaying {} posts", results.len());
+    for post in results {
+        println!("{} - {}", post.head, post.body);
     }
 }

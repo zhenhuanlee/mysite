@@ -8,5 +8,5 @@ pub mod model;
 pub mod schema;
 
 fn main() {
-    model::setting::Setting::index();
+    model::setting::index();
 }
