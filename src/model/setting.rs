@@ -1,11 +1,9 @@
 use super::config::{db};
-use super::schema;
-
+use rocket_contrib::json::Json;
 use diesel::prelude::*;
-
 use std::time::SystemTime;
 
-#[derive(Queryable)]
+#[derive(Debug, Queryable, Serialize)]
 pub struct Setting {
     pub id: i32,
     pub head: String,
@@ -15,7 +13,7 @@ pub struct Setting {
     pub updated_at: SystemTime,
 }
 
-pub fn index() {
+pub fn index() -> Json<Vec<Setting>> {
     use super::schema::settings::dsl::*;
 
     let connection = db::connect();
@@ -24,8 +22,9 @@ pub fn index() {
         .load::<Setting>(&connection)
         .expect("Error loading posts");
 
-    println!("Displaying {} posts", results.len());
-    for post in results {
-        println!("{} - {}", post.head, post.body);
-    }
+    Json(results)
+    // println!("Displaying {} posts", results.len());
+    // for post in results {
+    //     println!("{} - {}", post.head, post.body);
+    // }
 }
