@@ -22,7 +22,7 @@ RUN curl -sSL http://zlib.net/zlib-$ZLIB_VER.tar.gz | tar xz && \
     cd zlib-$ZLIB_VER && \
     CC="musl-gcc -fPIC -pie" LDFLAGS="-L$PREFIX/lib" CFLAGS="-I$PREFIX/include" \
     ./configure --static --prefix=$PREFIX && \
-    make -j$(nproc) && make install && \
+    make -j$(nproc) && make install
 
 RUN curl -sSL http://www.openssl.org/source/openssl-$SSL_VER.tar.gz | tar xz && \
     cd openssl-$SSL_VER && \
@@ -37,7 +37,7 @@ RUN curl -sSL https://ftp.postgresql.org/pub/source/v$PQ_VER/postgresql-$PQ_VER.
     make -s -j$(nproc) && make -s install && \
     rm $PREFIX/lib/*.so && rm $PREFIX/lib/*.so.* && rm $PREFIX/lib/postgres* -rf
 
-ENV PATH=$PREFIX/bin:$PATH \
+ENV PATH=$PREFIX/bin:/root/.cargo/bin:$PATH \
     OPENSSL_DIR=$PREFIX \
     LIBZ_SYS_STATIC=1 \
     OPENSSL_STATIC=true \
